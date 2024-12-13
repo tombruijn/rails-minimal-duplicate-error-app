@@ -35,5 +35,19 @@ module Testapp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.hosts << "localhost"
   end
 end
+
+class MyErrorSubscriber
+  def self.reported_errors
+    @reported_errors ||= []
+  end
+
+  def self.report(error, handled:, severity:, context: {}, source: nil)
+    puts "MyErrorSubscriber: #{error.class}: #{error}"
+    reported_errors << error
+  end
+end
+Rails.error.subscribe(MyErrorSubscriber)

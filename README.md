@@ -1,24 +1,32 @@
-# README
+# Rails error reporter test app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Usage
 
-Things you may want to cover:
+This test app illustrates the difference between the development and production environments and how the errors are reported to error subscribers.
 
-* Ruby version
+- In development, it reports the `ActionView::Template::Error` error.
+- In production, it reports both the `NoMethodError` error.
 
-* System dependencies
+```
+# Start in development environment
+bin/rails s
 
-* Configuration
+# Start in production environment
+RAILS_ENV=production bin/rails s
+```
 
-* Database creation
+Visit: [localhost:3000/](http://localhost:3000/)
 
-* Database initialization
+## Output
 
-* How to run the test suite
+Development:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+MyErrorSubscriber: ActionView::Template::Error: undefined method `foo' for nil
+```
 
-* Deployment instructions
+Production:
 
-* ...
+```
+MyErrorSubscriber: NoMethodError: undefined method `foo' for nil
+```
